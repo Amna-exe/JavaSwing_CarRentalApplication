@@ -25,7 +25,7 @@ public class CarInventory implements Serializable {
     }
     
     public CarInventory(){
-        filePath = "C:\\Users\\My\\Documents\\NetBeansProjects\\CRPCarRentalProgram\\src\\main\\java\\com\\mycompany\\crpcarrentalprogram\\CarInventory.txt";
+        filePath = "CarInventory.txt";
         
           // Ensure the file exists
     File file = new File(filePath);
@@ -34,7 +34,7 @@ public class CarInventory implements Serializable {
             file.createNewFile();
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("Failed to create inventory file.");
+
         }
     }
     loadCarsFromFile();
@@ -124,29 +124,7 @@ public class CarInventory implements Serializable {
     return false;
     }
      //separate update methods according to attributes for different cars.... (PolyMorphismm)
-    private void updateEconomyCar(EconomyCar car, String newModel, boolean newAvailability, double newRentPerDay, String newColor) {
-        car.setCarModel(newModel);
-        car.setAvailability(newAvailability);
-        car.setRentPerDay(newRentPerDay);
-        car.setColor(newColor);
-        System.out.println("EconomyCar details updated.");
-    }
 
-    private void updateLuxuryCar(LuxuryCar car, String newModel, boolean newAvailability, double newRentPerDay, String newColor) {
-        car.setCarModel(newModel);
-        car.setAvailability(newAvailability);
-        car.setRentPerDay(newRentPerDay);
-        car.setColor(newColor);
-        System.out.println("LuxuryCar details updated.");
-    }
-
-    private void updateElectricCar(ElectricCar car, String newModel, boolean newAvailability, double newRentPerDay, String newColor) {
-        car.setCarModel(newModel);
-        car.setAvailability(newAvailability);
-        car.setRentPerDay(newRentPerDay);
-        car.setColor(newColor);
-        System.out.println("ElectricCar details updated.");
-    }
 
     public void updateCarAvailability(String carId, boolean availability) {
         for (Car car : allAvailableCars) {
@@ -258,4 +236,7 @@ public class CarInventory implements Serializable {
         .orElse(null);
 }
 
+    public boolean removeCar(Car car) {
+        return allAvailableCars.remove(car); // Remove the car from the list and return true if successful
+    }
 }

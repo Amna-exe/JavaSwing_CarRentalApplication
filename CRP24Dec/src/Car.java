@@ -49,7 +49,7 @@ public abstract class Car implements Serializable{
         return String.format("CA-0%d",size);
     }
 
-    private String determineCarCategory(String engineType){
+    public static String determineCarCategory(String engineType){
         return switch (engineType.toLowerCase()) {
             case "electric" -> "Electric";
             case "diesel", "petrol" -> "Economy";

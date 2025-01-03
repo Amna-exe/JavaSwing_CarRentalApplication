@@ -1,4 +1,6 @@
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,138 +10,115 @@ public class CRPGui {
     private CardLayout cardLayout;
     private JPanel cardPanel;
 
-    // Role buttons
-    private JButton customerButton;
-    private JButton adminButton;
-    private JButton managerButton;
-
     // Panels for different screens
     private JPanel mainPanel;
     private JPanel customerPanel;
-    private JPanel managerPanel;
+    // Removed managerPanel related variables
 
     public CRPGui() {
         // Initialize the frame and CardLayout
         frame = new JFrame("McRental - Welcome");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 400);
+        frame.setSize(1000, 800);
         frame.setLocationRelativeTo(null);
 
         cardLayout = new CardLayout();
         cardPanel = new JPanel(cardLayout);
 
-        //add main screen
+        // Add main screen
         JPanel mainPanel = createMainScreen();
         cardPanel.add(mainPanel,"Main");
         // Set the frame visible
 
-          
-  
-          managerPanel = createManagerScreen();
-          cardPanel.add(managerPanel, "Manager");
-  
-        
-  
+        // Removed managerPanel code
 
         frame.setContentPane(cardPanel);
         frame.setVisible(true);
     }
 
     private JPanel createMainScreen() {
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        JPanel panel = new BackgroundPanel("C:\\Users\\My\\Downloads\\Car_Rental_Project_24Dec\\CRP24Dec\\src\\CarImage.jpg"); 
+        panel.setLayout(new GridBagLayout()); // Use GridBagLayout for centering
 
+        // Create a semi-transparent inner panel
+        JPanel innerPanel = new JPanel();
+        innerPanel.setLayout(new BoxLayout(innerPanel, BoxLayout.Y_AXIS));
+        innerPanel.setOpaque(true);
+        // Set the size of the inner panel
+        innerPanel.setPreferredSize(new Dimension(300, 270)); 
+        innerPanel.setMinimumSize(new Dimension(300, 200));
+        innerPanel.setMaximumSize(new Dimension(300, 250));
+
+        // Set up the text and radio buttons
         JLabel headingLabel = new JLabel("Welcome to McRental!");
-        headingLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        headingLabel.setFont(new Font("Arial", Font.BOLD, 24));
         headingLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
+        JLabel subheadingLabel = new JLabel("Select your role:");
+        subheadingLabel.setFont(new Font("Arial", Font.PLAIN, 18));
+        subheadingLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        customerButton = new JButton("Customer Interface");
-        adminButton = new JButton("Admin Interface");
-        managerButton = new JButton("Manager Interface");
+        JRadioButton adminButton = new JRadioButton("Admin");
+        JRadioButton customerButton = new JRadioButton("Customer");
+        // Removed managerButton
 
-        customerButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        adminButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        managerButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        // Add left padding using EmptyBorder
+        adminButton.setBorder(new EmptyBorder(0, 20, 0, 0));  // Top, Left, Bottom, Right
+        customerButton.setBorder(new EmptyBorder(0, 20, 0, 0));
+        // Removed managerButton padding
 
-        // Add ActionListeners to buttons to switch between screens
-        customerButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        // Create the OK button
+        JButton okButton = new JButton("OK");
+        okButton.setFont(new Font("Arial", Font.PLAIN, 14));
+        okButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        okButton.setBackground(Color.BLACK); // Set background color
+        okButton.setForeground(Color.WHITE); // Set text color
+        okButton.setPreferredSize(new Dimension(220, 40)); // Set button size
+
+        // Create a panel for the radio buttons and use GridLayout for alignment
+        JPanel radioButtonPanel = new JPanel();
+        radioButtonPanel.setLayout(new GridLayout(2, 1, 20, 10)); // 2 rows, 1 column, vertical spacing of 10
+        radioButtonPanel.setOpaque(false); // Make panel transparent
+        radioButtonPanel.add(adminButton);
+        radioButtonPanel.add(customerButton);
+        // Removed managerButton from panel
+
+        // Group radio buttons
+        ButtonGroup group = new ButtonGroup();
+        group.add(adminButton);
+        group.add(customerButton);
+        // Removed managerButton from group
+
+        // Style radio buttons
+        adminButton.setOpaque(false);
+        customerButton.setOpaque(false);
+        adminButton.setFont(new Font("Arial", Font.PLAIN, 16));
+        customerButton.setFont(new Font("Arial", Font.PLAIN, 16));
+
+        // Add an ActionListener to the OK button
+        okButton.addActionListener(e -> {
+            if (adminButton.isSelected()) {
+                loadAdminInterface();
+            } else if (customerButton.isSelected()) {
                 loadCustomerInterface();
+            } else {
+                JOptionPane.showMessageDialog(frame, "Please select a role before proceeding.", "No Selection", JOptionPane.WARNING_MESSAGE);
             }
         });
 
-        adminButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                loadAdminInterface();  // Dynamically load the Admin interface
-            }
-        });
+        // Add components to the inner panel
+        innerPanel.add(Box.createVerticalStrut(20));
+        innerPanel.add(headingLabel);
+        innerPanel.add(Box.createVerticalStrut(10));
+        innerPanel.add(subheadingLabel);
+        innerPanel.add(Box.createVerticalStrut(20));
+        innerPanel.add(radioButtonPanel); // Add the radio button panel
+        innerPanel.add(Box.createVerticalStrut(20));
+        innerPanel.add(okButton);
+        innerPanel.add(Box.createVerticalStrut(20));
 
-        managerButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                loadManagerInterface();
-            }
-        });
-
-        panel.add(Box.createVerticalStrut(20));
-        panel.add(headingLabel);
-        panel.add(Box.createVerticalStrut(20));
-        panel.add(customerButton);
-        panel.add(Box.createVerticalStrut(10));
-        panel.add(adminButton);
-        panel.add(Box.createVerticalStrut(10));
-        panel.add(managerButton);
-
-        return panel;
-    }
-
-    private JPanel createCustomerScreen() {
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-
-        JLabel label = new JLabel("Welcome to the Customer Screen");
-        label.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        JButton loginButton = new JButton("Customer Login ");
-        JButton signupButton = new JButton("Customer Sign Up");
-        loginButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        signupButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        JButton backButton = new JButton("Back to Main");
-        backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        backButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                cardLayout.show(cardPanel, "Main");
-            }
-        });
-
-        loginButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Call the login method
-                new CustomerLogin(); // You can call your customer login method here
-            }
-        });
-
-        signupButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Call the signup method
-                new CustomerSignup(); // You can call your signup method here
-            }
-        });
-
-        panel.add(label);
-        panel.add(Box.createVerticalStrut(20));  // Space between label and buttons
-        panel.add(loginButton);
-        panel.add(Box.createVerticalStrut(10));  // Space between buttons
-        panel.add(signupButton);
-        panel.add(Box.createVerticalStrut(10));  // Space between buttons
-        panel.add(backButton);
+        // Add the inner panel to the main panel
+        panel.add(innerPanel);
 
         return panel;
     }
@@ -154,40 +133,25 @@ public class CRPGui {
         cardLayout.show(cardPanel,"CustomerLogin");
     }
 
-    private void loadManagerInterface(){
-        ManagerInterface managerInterface = new ManagerInterface(cardLayout, cardPanel);
-        cardLayout.show(cardPanel,"ManagerLogin");
-    }
-    private JPanel createManagerScreen() {
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+    // Removed ManagerInterface method
 
-        JLabel label = new JLabel("Welcome to the Manager Screen");
-        label.setAlignmentX(Component.CENTER_ALIGNMENT);
+    private static class BackgroundPanel extends JPanel {
+        private Image backgroundImage;
 
-        JButton backButton = new JButton("Back to Main");
-        backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        public BackgroundPanel(String imagePath) {
+            backgroundImage = new ImageIcon(imagePath).getImage();
+        }
 
-        backButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                cardLayout.show(cardPanel, "Main");
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            if (backgroundImage != null) {
+                g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
             }
-        });
-
-        panel.add(label);
-        panel.add(Box.createVerticalStrut(20));
-        panel.add(backButton);
-
-        return panel;
+        }
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new CRPGui(); // Launch the GUI
-            }
-        });
+        SwingUtilities.invokeLater(CRPGui::new);
     }
 }

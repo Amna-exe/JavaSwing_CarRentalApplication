@@ -152,13 +152,19 @@ public class Admin extends User{
         carInventory.updateCarDetails(carId, newCategory, newModel, newAvailability, newSeatingCapacity);
     }
 
-    protected void deleteCar(String carId) {
-        carInventory.removeCarFromInventory(carId);
+    public boolean deleteCar(String carId) {
+        // Try to find the car using the carId
+         Car carToDelete = carInventory.searchCarById(carId);
+
+        if (carToDelete != null) {
+            // If the car is found, delete it from the inventory
+            return carInventory.removeCar(carToDelete);
+        } else {
+            return false; // Return false if car is not found
+        }
     }
 
-    //add methods in the admin so that admin can view cars according to a certain category or by type
-    //add method so that admin can enter name of a car and see if it is available.
-    //model isn't a good identifier, add some category name to filter out the relatd ones. 
+    
     protected void viewCarsByCategory(String carCategory) {
         carInventory.filterCarsByType(carCategory);
 
@@ -166,13 +172,18 @@ public class Admin extends User{
     
     //Car Inventory
 
-    protected boolean addCarToInventory(Car car) throws IOException {
-        return carInventory.addCarToInventory(car);
+    public void addCar(Car newCar) {
+        carInventory.addCarToInventory(newCar);
     }
-    
-    protected boolean deleteCarFromInventory(String carId) {
-        return carInventory.removeCarFromInventory(carId);
+
+    public boolean addCarToInventory(Car car) {
+        if (car == null) {
+            return false;
+        }
+        carInventory.addCarToInventory(car); // Ensure this list is correctly initialized
+        return true;
     }
+
     
     protected boolean updateCarInInventory(String carId, String newCategory, String newModel, boolean newAvailability, int newRentPerDay) {
         return carInventory.updateCarDetails(carId, newCategory, newModel, newAvailability, newRentPerDay);
@@ -182,5 +193,6 @@ public class Admin extends User{
        List<Car> carDetails = carInventory.getAvailableCarsDetails();
        return carDetails;
     }
+
 
 }
