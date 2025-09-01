@@ -1,6 +1,39 @@
-## Getting Started
+# 🚗 Car Rental Management System (Java Swing)
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+A desktop-based application built with **Java** and **Swing** that simulates a car rental service.  
+It provides separate user interfaces for **Admin** and **Customer**, with full file handling support for data storage and error detection.
+
+---
+
+## ✨ Features
+
+### 👤 Customer
+- Sign up and log in securely  
+- View available cars  
+- Reserve cars  
+- Maintain and update profile  
+
+### 🛠️ Admin
+- Add new cars to the system  
+- Remove cars from the system  
+- Generate bills for customers  
+- Manage user profiles  
+
+---
+
+## 🗂️ Tech Stack
+- **Java (Core + OOP)**  
+- **Java Swing** (Frontend UI)  
+- **File Handling (Serialization)**  
+- **Error Detection & Validation**
+
+---
+
+## 🚀 How to Run
+1. Clone this repository:
+   ```bash
+   git clone https://github.com/your-username/Car-Rental-Management-System-Java-Swing.git
+
 
 ## Folder Structure
 
@@ -11,8 +44,3 @@ The workspace contains two folders by default, where:
 
 Meanwhile, the compiled output files will be generated in the `bin` folder by default.
 
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
-
-## Dependency Management
-
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
